@@ -36,8 +36,6 @@ Required files:
 
 Follow the steps below **in order** to reproduce all results.
 
----
-
 ### 1. Run Hector SLAM (Baseline – No Loop Closure)
 
 This generates:
@@ -47,12 +45,14 @@ This generates:
 
 ```bash
 python main.py
+```
 
 
 ### 2.  Apply Pose-Graph Loop Closure (Offline PGO)
 
 This step optimizes the trajectory using Freiburg relative pose constraints.
 
+```bash
 python -m eval.pose_graph_lc \
   --traj outputs/fr079_no_lc/trajectory.txt \
   --stamps outputs/fr079_no_lc/timestamps.txt \
@@ -62,54 +62,61 @@ python -m eval.pose_graph_lc \
   --max_dt 2.0 \
   --lc_sig_th_deg 0.3 \
   --pgo_iters 40
-
+  ```
 
 Outputs:
 
-outputs/fr079_with_lc/trajectory.txt
+`outputs/fr079_with_lc/trajectory.txt`
 
-outputs/overlay_no_lc_vs_lc.png
+`outputs/overlay_no_lc_vs_lc.png`
 
 
 ### 3. Quantitative Evaluation (RMSE)
 
 Evaluation is performed using Freiburg relative pose constraints.
 
-Without Loop Closure
+**Without Loop Closure**
+```bash
 python eval/relations_eval.py \
   --traj outputs/fr079_no_lc/trajectory.txt \
   --rels datasets/freiburg/fr079.relations \
   --stamps outputs/fr079_no_lc/timestamps.txt \
   --mode time --convention ij
+```
 
-With Loop Closure
+**With Loop Closure**
+```bash
 python eval/relations_eval.py \
   --traj outputs/fr079_with_lc/trajectory.txt \
   --rels datasets/freiburg/fr079.relations \
   --stamps outputs/fr079_no_lc/timestamps.txt \
   --mode time --convention ij
+```
 
 ### 4. Rebuild Final Maps (Visualization)
 
 The final occupancy maps are rebuilt from the optimized trajectories for fair comparison.
 
-No Loop Closure
+**No Loop Closure**
+```bash
 python -m eval.rebuild_map_from_traj \
   --traj outputs/fr079_no_lc/trajectory.txt \
   --log datasets/freiburg/fr079.clf \
   --out_dir outputs/fr079_maps \
   --tag no_lc
+```
 
-With Loop Closure
+**With Loop Closure**
+```bash
 python -m eval.rebuild_map_from_traj \
   --traj outputs/fr079_with_lc/trajectory.txt \
   --log datasets/freiburg/fr079.clf \
   --out_dir outputs/fr079_maps \
   --tag with_lc
-
+```
 
 Outputs:
 
-outputs/fr079_maps/map_traj_no_lc.png
+`outputs/fr079_maps/map_traj_no_lc.png`
 
-outputs/fr079_maps/map_traj_with_lc.png
+`outputs/fr079_maps/map_traj_with_lc.png`
