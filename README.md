@@ -22,21 +22,6 @@ The project includes:
 
 ---
 
-## Folder Structure
-
-Hector_slam/
-├── slam/           # Core SLAM implementation
-├── eval/           # Evaluation & loop-closure scripts
-├── viz/            # Visualization utilities
-├── dataio/         # Dataset loaders
-├── config.py       # Parameters
-├── main.py         # Baseline Hector SLAM run
-├── requirements.txt
-└── README.md
-
-
----
-
 ## Dataset
 
 This project is evaluated on the **Freiburg CARMEN dataset**.
